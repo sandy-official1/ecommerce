@@ -1,0 +1,62 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-nav {
+    width: 100%;
+    justify-content: center;
+}
+
+.navbar-nav .nav-link {
+    padding: 0 10px;
+}
+.card-img-top:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+}
+
+
+.contactus-section .contact-rightside form {
+    background-color: #f8f8f8;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contactus-section .contact-rightside form .form-control {
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contactus-section .contact-rightside form .form-check-input {
+    margin-right: 10px;
+}
+
+.contactus-section .contact-rightside form .btn {
+    background-color: #5f8de5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.contactus-section .contact-rightside form .btn:hover {
+    background-color: #4560c7;
+    cursor: pointer;
+}
+.contact-leftside img {
+    max-width: 60%;
+    margin-bottom: 40px;
+   
+}
+.main-heading {
+    text-align: center;
+}
+
+
