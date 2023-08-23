@@ -1,6 +1,4 @@
-import { Auth0Context } from "@auth0/auth0-react";
-
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../store/Authcontext";
 import classes from "./AuthForm.module.css";
@@ -12,6 +10,8 @@ const AuthForm = () => {
   const authCtx = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState("");
+  const [warningMessage, setWarningMessage] = useState("");
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -22,6 +22,12 @@ const AuthForm = () => {
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+
+    // Validate password strength
+    if (enteredPassword.length < 6) {
+      setWarningMessage("Password should be at least 6 characters");
+      return;
+    }
 
     //optional add validation
     setIsLoading(true);
@@ -53,21 +59,40 @@ const AuthForm = () => {
           return res.json().then((data) => {
             // handle error
             let errorMessage = "Authentication failed";
-            //if (data && data.error && data.error.message) {
-            //errorMessage = data.error.message;
-            //}
             throw new Error(errorMessage);
           });
         }
       })
       .then((data) => {
         authCtx.login(data.idToken);
-        history("/home");
+        history("/store");
       })
       .catch((err) => {
         alert(err.message);
       });
   };
+
+  useEffect(() => {
+    const calculatePasswordStrength = () => {
+      const enteredPassword = passwordInputRef.current.value;
+
+      if (enteredPassword.length >= 6) {
+        setPasswordStrength("Password strength: Strong");
+        setWarningMessage("");
+      } else if (enteredPassword.length >= 3) {
+        setPasswordStrength("Password strength: Medium");
+        setWarningMessage("");
+      } else if (enteredPassword.length > 0) {
+        setPasswordStrength("Password strength: Weak");
+        setWarningMessage("Password should be at least 6 characters");
+      } else {
+        setPasswordStrength("");
+        setWarningMessage("");
+      }
+    };
+
+    calculatePasswordStrength();
+  }, []);
 
   return (
     <section className={classes.auth}>
@@ -85,6 +110,14 @@ const AuthForm = () => {
             required
             ref={passwordInputRef}
           />
+        </div>
+        <div className={classes.passwordStrength}>
+          {warningMessage && (
+            <p className={classes.warning}>{warningMessage}</p>
+          )}
+          {passwordStrength && (
+            <p className={classes.strength}>{passwordStrength}</p>
+          )}
         </div>
         <div className={classes.actions}>
           {!isLoading && (
